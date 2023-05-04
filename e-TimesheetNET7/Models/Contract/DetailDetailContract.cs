@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace e_TimesheetNET7.Models.Contract
 {
+    [Table("SAP_MtKontrakDetailDetail")]
     public class DetailDetailContract
     {
         [Key]

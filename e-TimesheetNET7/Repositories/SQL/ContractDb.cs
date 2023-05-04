@@ -20,8 +20,6 @@ namespace e_TimesheetNET7.Repositories.SQL
         {
             var conn = await _connect.CreateODBCConnectionAsync();
             HeaderContract header = new HeaderContract();
-
-            //var query = "SELECT * FROM SAP_MTKontrakHeader WHERE NoKontrak=" + contractNo;
             var query = @"select * from SAP_MTKontrakHeader where NoKontrak like ? ";
             var param = new DynamicParameters();
             param.Add("NoKontrak", $"%{contractNo}%");
@@ -65,7 +63,6 @@ namespace e_TimesheetNET7.Repositories.SQL
             {
                 Header = header,
                 Detail = item,
-                //DetailDetail = detail,
                 DetailDetail = _lDetail,
             };
 

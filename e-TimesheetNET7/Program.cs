@@ -12,9 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IConnectionFactoryDb>(
     _ => new ConnectionFactoryDb(builder.Configuration.GetValue<string>("DatabaseSettings:ODBCConnection")));
 
-// Repository
+// Data
 builder.Services.AddScoped<IContractDb, ContractDb>();
+builder.Services.AddScoped<IContractDb, ContractDb>();
+builder.Services.AddScoped<ITimesheetDb, TimesheetDb>();
+
+// Repository
 builder.Services.AddScoped<IContractRepository, ContractRepository>();
+builder.Services.AddScoped<IDriverRepository, DriverRepository>();
+builder.Services.AddScoped<ITimesheetRepository, TimesheetRepository>();
 
 // Usecase
 builder.Services.AddScoped<IContractUsecase, ContractUsecase>();
