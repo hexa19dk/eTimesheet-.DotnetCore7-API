@@ -19,11 +19,12 @@ builder.Services.AddScoped<ITimesheetDb, TimesheetDb>();
 
 // Repository
 builder.Services.AddScoped<IContractRepository, ContractRepository>();
-builder.Services.AddScoped<IDriverRepository, DriverRepository>();
+//builder.Services.AddScoped<IDriverRepository, DriverRepository>();
 builder.Services.AddScoped<ITimesheetRepository, TimesheetRepository>();
 
 // Usecase
 builder.Services.AddScoped<IContractUsecase, ContractUsecase>();
+builder.Services.AddScoped<ITimesheetUsecase, TimesheetUsecase>();
 
 
 builder.Services.AddControllers();

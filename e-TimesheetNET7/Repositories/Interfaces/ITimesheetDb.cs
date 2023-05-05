@@ -8,6 +8,9 @@ namespace e_TimesheetNET7.Repositories.Interfaces
         Task<HeaderContract> GetHeaderContract(string contractNo);
         Task<DetailContract> GetDetailContract(string contractNo, string itemNo);
         Task<DetailDetailContract> GetDetail2Contract(string contractNo, string itemNo, string detailDetail);
+        Task<HeaderTimesheet> GetTimesheetHeader(string internalTsNo, string tahun);
+        Task<DetailTimesheet> GetDetailTimesheet(string internalTsNo, string tahun);
+        Task<TimesheetData> GetTimeSheetData(string internalTsNo, string tahun);
         Task<bool> InsertTimesheet(TimesheetData tsData);
     }
 }
