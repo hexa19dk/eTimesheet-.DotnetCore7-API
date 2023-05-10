@@ -25,9 +25,17 @@ namespace e_TimesheetNET7.Usecase
             }
         }
 
-        public Task<TimesheetData> PostTimesheet(TimesheetData tsData)
+        public async Task<bool> PostTimesheet(TimesheetData tsData)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await _tsRepo.Timesheets().InsertTimesheet(tsData);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Insert timesheet data failed " + ex.Message);
+            }
         }
     }
 }

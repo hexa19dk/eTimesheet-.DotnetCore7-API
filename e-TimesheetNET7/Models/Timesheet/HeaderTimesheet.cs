@@ -8,7 +8,7 @@ namespace e_TimesheetNET7.Models.Timesheet
     {
         [Key]
         [Column(Order = 0)]
-        public string? InternalTsNo { get; set; }
+        public string? InternalTSNo { get; set; }
         [Key]
         [Column(Order = 1)]
         public string? Tahun { get; set; }
@@ -39,8 +39,8 @@ namespace e_TimesheetNET7.Models.Timesheet
         public string? LastUpdateDate { get; set; }
         public string? LastUpdateTime { get; set; }
         public string? LastUpdateUser { get; set; }
-        public string? TglKirim { get; set; }
-        public string? FlagKirim { get; set; }
+        public string? tglkirim { get; set; }
+        public string? flagkirim { get; set; }
         public string? TglRelease { get; set; }
         public string? RefInternalTSNo { get; set; }
         public string? RefTahun { get; set; }

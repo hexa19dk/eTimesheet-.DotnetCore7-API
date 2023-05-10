@@ -27,8 +27,8 @@ namespace e_TimesheetNET7.Models.Timesheet
         public string? KodeHarga { get; set; }
         public string? FlagExtraHariRaya { get; set; }
         public string? HariExtraInap { get; set; }
-        public int PersenKomisi { get; set; }
-        public int PersenDongkrak { get; set; }
+        public int? PersenKomisi { get; set; }
+        public int? PersenDongkrak { get; set; }
         public string? CreationDate { get; set; }
         public string? CreationTime { get; set; }
         public string? CreationUser { get; set; }

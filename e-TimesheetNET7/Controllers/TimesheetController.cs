@@ -1,4 +1,5 @@
-﻿using e_TimesheetNET7.Usecase.Interfaces;
+﻿using e_TimesheetNET7.Models.Timesheet;
+using e_TimesheetNET7.Usecase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -34,10 +35,26 @@ namespace e_TimesheetNET7.Controllers
             }
         }
 
-        //[HttpPost("/PostTimesheet/{InternalTSNo}{Tahun}")]
-        //public async Task<ActionResult> PostTimesheet(string internalTsNo, string tahun)
-        //{
-
-        //}
+        [HttpPost("/PostTimesheet")]
+        public async Task<ActionResult> PostTimesheet(TimesheetData tsData)
+        {
+            try
+            {
+                var result = await _tsUsecase.PostTimesheet(tsData);
+                if (result == true)
+                {
+                    var json = JsonConvert.SerializeObject(result, Formatting.Indented);
+                    return Ok(json);
+                }
+                else
+                {
+                    return BadRequest("Bad request : 400");
+                }
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
+        }
     }
 }

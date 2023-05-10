@@ -16,25 +16,25 @@ namespace e_TimesheetNET7.Controllers
             _ctrUsecase = ctrUsecase;
         }
 
-        [HttpGet("/ContractHeader/{contractNo}")]
-        public async Task<ActionResult> GetHeader(string contractNo)
-        {
-            try
-            {
-                var result = await _ctrUsecase.GetHeader(contractNo);
-                if (result == null)
-                {
-                    return BadRequest("Not found");
-                }
-                var json = JsonConvert.SerializeObject(result, Formatting.Indented);
+        //[HttpGet("/ContractHeader/{contractNo}")]
+        //public async Task<ActionResult> GetHeader(string contractNo)
+        //{
+        //    try
+        //    {
+        //        var result = await _ctrUsecase.GetHeader(contractNo);
+        //        if (result == null)
+        //        {
+        //            return BadRequest("Not found");
+        //        }
+        //        var json = JsonConvert.SerializeObject(result, Formatting.Indented);
 
-                return Ok(json);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
-            }
-        }
+        //        return Ok(json);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, ex);
+        //    }
+        //}
 
         [HttpGet("/ContractData/{contractNo}")]
         public async Task<ActionResult> GetContract(string contractNo)

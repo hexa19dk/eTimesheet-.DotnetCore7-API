@@ -5,6 +5,6 @@ namespace e_TimesheetNET7.Usecase.Interfaces
     public interface ITimesheetUsecase
     {
         Task<TimesheetData> GetTimesheetData(string internalTsNo, string tahun);
-        Task<TimesheetData> PostTimesheet(TimesheetData tsData);
+        Task<bool> PostTimesheet(TimesheetData tsData);
     }
 }

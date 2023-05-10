@@ -3,8 +3,8 @@ using e_TimesheetNET7.Config.Interfaces;
 using e_TimesheetNET7.Models.Contract;
 using e_TimesheetNET7.Models.Timesheet;
 using e_TimesheetNET7.Repositories.Interfaces;
-using System.Diagnostics.Contracts;
-using System.Reflection.PortableExecutable;
+using System.Reflection.Emit;
+using System.Transactions;
 
 namespace e_TimesheetNET7.Repositories.SQL
 {
@@ -93,87 +93,135 @@ namespace e_TimesheetNET7.Repositories.SQL
         public async Task<bool> InsertTimesheet(TimesheetData tsData)
         {
             var conn = await _connect.CreateODBCConnectionAsync();
-            
-            using (var transaction = conn.BeginTransaction())
+
+            var header = await GetHeaderContract(tsData.Header.NoKontrak);
+            var detail = await GetDetailContract(tsData.Header.NoKontrak, tsData.Header.NoItem);
+            var detail2 = await GetDetail2Contract(tsData.Header.NoKontrak, tsData.Header.NoItem, tsData.Header.DetailDetail);
+
+            var query = "SELECT COUNT(*) Count FROM SAP_TrTimeSheetHeader AS tsHeader " +
+                "INNER JOIN SAP_TrTimeSheetDetail tsDetail ON tsHeader.InternalTsNo = tsDetail.InternalTsNo " +
+                "WHERE tsHeader.NIP=? AND tsDetail.Tahun=? AND tsDetail.TglMulai=? ";
+
+            var param = new DynamicParameters();
+            param.Add("NIP", tsData.Header.NIP);
+            param.Add("Tahun", tsData.Detail.Tahun);
+            param.Add("TglMulai", tsData.Detail.TglMulai);
+
+            var isExistDetail = await conn.QueryFirstOrDefaultAsync<int>(query, param);
+
+            if(isExistDetail == 0)
             {
-                transaction.Commit();
+                if (header != null && detail != null && detail2 != null)
+                {
+                    var transaction = await conn.BeginTransactionAsync();
+                    var newId = Guid.NewGuid().ToString();
 
-                var insertHeader = "insert into SAP_TrTimeSheetHeader(InternalTsNo, Tahun, AppCode, NIP, Pool, PeriodFrom, PeriodTo, JenisPengemudi, JamKerja, NoKontrak, NoItem, DetailDetail, NoCustomer, NoLambung, KelasKendaraan, KmAwal, KmAkhir, KategoriKomisi, NoTimesheet, FlagDeletion, Status, NIPReplaced, NoEquipment, CreationDate, CreationTime, CreationUser, LastUpdateDate, LastUpdateTime, LastUpdateUser, TglKirim, FlagKirim, TglRelease, RefInternalTSNo, RefTahun, AsalTS, KodeArea) into values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    try
+                    {
+                        #region TS Header Trasnsaction
 
-                var paramHdr = new DynamicParameters();
-                paramHdr.Add("InternalTsNo", tsData.Header?.InternalTsNo);
-                paramHdr.Add("Tahun", tsData.Header?.Tahun);
-                paramHdr.Add("AppCode", tsData.Header?.AppCode);
-                paramHdr.Add("NIP", tsData.Header?.NIP);
-                paramHdr.Add("Pool", tsData.Header?.Pool);
-                paramHdr.Add("PeriodForm", tsData.Header?.PeriodFrom);
-                paramHdr.Add("PeriodTo", tsData?.Header?.PeriodTo);
-                paramHdr.Add("JenisPengemudi", tsData?.Header?.JenisPengemudi);
-                paramHdr.Add("JamKerja", tsData.Header?.JamKerja);
-                paramHdr.Add("NoKontrak", tsData.Header?.NoKontrak);
-                paramHdr.Add("NoItem", tsData.Header?.NoItem);
-                paramHdr.Add("DetailDetail", tsData.Header?.DetailDetail);
-                paramHdr.Add("NoCustomer", tsData.Header?.NoCustomer);
-                paramHdr.Add("NoLambung", tsData.Header?.NoLambung);
-                paramHdr.Add("KelasKendaraan", tsData.Header?.KelasKendaraan);
-                paramHdr.Add("KmAwal", tsData.Header?.KmAwal);
-                paramHdr.Add("KmAkhir", tsData.Header?.KmAkhir);
-                paramHdr.Add("KategoriKomisi", tsData.Header?.KategoriKomisi);
-                paramHdr.Add("NoTimesheet", tsData.Header?.NoTimesheet);
-                paramHdr.Add("FlagDeletion", tsData.Header?.FlagDeletion);
-                paramHdr.Add("Status", tsData.Header?.Status);
-                paramHdr.Add("NIPReplaced", tsData.Header?.NIPReplaced);
-                paramHdr.Add("NoEquipment", tsData.Header?.NoEquipment);
-                paramHdr.Add("CreationDate", tsData.Header?.CreationDate);
-                paramHdr.Add("CreationUser", tsData.Header?.CreationUser);
-                paramHdr.Add("LastUpdateDate", tsData.Header?.LastUpdateDate);
-                paramHdr.Add("LastUpdateTime", tsData.Header?.LastUpdateTime);
-                paramHdr.Add("LastUpdateUser", tsData.Header?.LastUpdateUser);
-                paramHdr.Add("TglKirim", tsData.Header?.TglKirim);
-                paramHdr.Add("FlagKirim", tsData.Header?.FlagKirim);
-                paramHdr.Add("TglRelease", tsData.Header?.TglRelease);
-                paramHdr.Add("RefInternalTSNo", tsData.Header?.RefInternalTSNo);
-                paramHdr.Add("RefTahun", tsData.Header?.RefTahun);
-                paramHdr.Add("AsalTS", tsData.Header?.AsalTS);
-                paramHdr.Add("KodeArea", tsData.Header?.KodeArea);
+                        var insertHeader = @"INSERT INTO [SAP_TrTimeSheetHeader] ([InternalTSNo],[Tahun],[AppCode],[NIP],[Pool],[PeriodFrom],[PeriodTo],[JenisPengemudi],[JamKerja],[NoKontrak],[NoItem],[DetailDetail],[NoCustomer],[NoLambung],[KelasKendaraan],[KmAwal],[KmAkhir],[KategoriKomisi],[NoTimeSheet],[FlagDeletion],[Status],[NIPReplaced],[NoEquipment],[CreationDate],[CreationTime],[CreationUser],[LastUpdateDate],[LastUpdateTime],[LastUpdateUser],[tglkirim],[flagkirim],[TglRelease],[RefInternalTSNo],[RefTahun],[AsalTS],[rowguid],[KodeArea]) 
+                          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-                var resultHdr = await conn.ExecuteAsync(insertHeader, paramHdr);
+                        var paramHdr = new DynamicParameters();
+                        paramHdr.Add("InternalTSNo", tsData.Header?.InternalTSNo);
+                        paramHdr.Add("Tahun", tsData.Header?.Tahun);
+                        paramHdr.Add("AppCode", tsData.Header?.AppCode);
+                        paramHdr.Add("NIP", tsData.Header?.NIP);
+                        paramHdr.Add("Pool", tsData.Header?.Pool);
+                        paramHdr.Add("PeriodFrom", tsData.Header?.PeriodFrom);
+                        paramHdr.Add("PeriodTo", tsData.Header?.PeriodTo);
+                        paramHdr.Add("JenisPengemudi", tsData.Header?.JenisPengemudi);
+                        paramHdr.Add("JamKerja", tsData.Header?.JamKerja);
+                        paramHdr.Add("NoKontrak", tsData.Header?.NoKontrak);
+                        paramHdr.Add("NoItem", tsData.Header?.NoItem);
+                        paramHdr.Add("DetailDetail", tsData.Header?.DetailDetail);
+                        paramHdr.Add("NoCustomer", tsData.Header?.NoCustomer);
+                        paramHdr.Add("NoLambung", tsData.Header?.NoLambung);
+                        paramHdr.Add("KelasKendaraan", tsData.Header?.KelasKendaraan);
+                        paramHdr.Add("KmAwal", tsData.Header?.KmAwal);
+                        paramHdr.Add("KmAkhir", tsData.Header?.KmAkhir);
+                        paramHdr.Add("KategoriKomisi", tsData.Header?.KategoriKomisi);
+                        paramHdr.Add("NoTimeSheet", tsData.Header?.NoTimesheet);
+                        paramHdr.Add("FlagDeletion", tsData.Header?.FlagDeletion);
+                        paramHdr.Add("Status", tsData.Header?.Status);
+                        paramHdr.Add("NIPReplaced", tsData.Header?.NIPReplaced);
+                        paramHdr.Add("NoEquipment", tsData.Header?.NoEquipment);
+                        paramHdr.Add("CreationDate", tsData.Header?.CreationDate);
+                        paramHdr.Add("CreationTime", tsData.Header?.CreationTime);
+                        paramHdr.Add("CreationUser", tsData.Header?.CreationUser);
+                        paramHdr.Add("LastUpdateDate", tsData.Header?.LastUpdateDate);
+                        paramHdr.Add("LastUpdateTime", tsData.Header?.LastUpdateTime);
+                        paramHdr.Add("LastUpdateUser", tsData.Header?.LastUpdateUser);
+                        paramHdr.Add("tglkirim", tsData.Header?.tglkirim);
+                        paramHdr.Add("flagkirim", tsData.Header?.flagkirim);
+                        paramHdr.Add("TglRelease", tsData.Header?.TglRelease);
+                        paramHdr.Add("RefInternalTSNo", tsData.Header?.RefInternalTSNo);
+                        paramHdr.Add("RefTahun", tsData.Header?.RefTahun);
+                        paramHdr.Add("AsalTS", tsData.Header?.AsalTS);
+                        paramHdr.Add("rowguid", newId);
+                        paramHdr.Add("KodeArea", tsData.Header?.KodeArea);              
+                        var resultHdr = await conn.ExecuteAsync(insertHeader, paramHdr, transaction);
+                        //transaction.Commit();
 
-                var insertDetail = "insert into SAP_TrTimeSheetDetail(InternalTsNo, Tahun, AppCode, Pool, TglMulai, JamMulai, JamSelesai, UsageType, NoSIO, NoSO, NoLambung, NoEquipment, KodeHarga, FlagExtraHariRaya, HariExtraInap, PersenKomisi, PersenDongkrak, CreationDate, CreationTime, CreationUser, LastUpdateDate,LastUpdateTime, LastUpdateUser, Hari, NoPolisiLama, NIP, KodeArea) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        #endregion
 
-                var paramDtl = new DynamicParameters();
-                paramDtl.Add("InternalTsNo", tsData.Detail.InternalTsNo);
-                paramDtl.Add("Tahun", tsData.Detail.Tahun);
-                paramDtl.Add("AppCode", tsData.Detail.AppCode);
-                paramDtl.Add("Pool", tsData.Detail.Pool);
-                paramDtl.Add("TglMulai", tsData.Detail.TglMulai);
-                paramDtl.Add("JamMulai", tsData.Detail.JamMulai);
-                paramDtl.Add("JamSelesai", tsData.Detail.JamSelesai);
-                paramDtl.Add("UsageType", tsData.Detail.UsageType);
-                paramDtl.Add("NoSIO", tsData.Detail.NoSIO);
-                paramDtl.Add("NoSO", tsData.Detail.NoSO);
-                paramDtl.Add("NoLambung", tsData.Detail.NoLambung);
-                paramDtl.Add("NoEquipment", tsData.Detail.NoEquipment);
-                paramDtl.Add("KodeHarga", tsData.Detail.KodeHarga);
-                paramDtl.Add("FlagExtraHariRaya", tsData.Detail.FlagExtraHariRaya);
-                paramDtl.Add("HariExtraInap", tsData.Detail.HariExtraInap);
-                paramDtl.Add("PersenKomisi", tsData.Detail.PersenKomisi);
-                paramDtl.Add("PersenDongkrak", tsData.Detail.PersenDongkrak);
-                paramDtl.Add("CreationDate", tsData.Detail.CreationDate);
-                paramDtl.Add("CreationTime", tsData.Detail.CreationTime);
-                paramDtl.Add("CreationUser", tsData.Detail.CreationUser);
-                paramDtl.Add("LastUpdateDate", tsData.Detail.LastUpdateDate);
-                paramDtl.Add("LastUpdateTime", tsData.Detail.LastUpdateTime);
-                paramDtl.Add("Hari", tsData.Detail.Hari);
-                paramDtl.Add("NoPolisiLama", tsData.Detail.NoPolisiLama);
-                paramDtl.Add("NIP", tsData.Detail.NIP);
-                paramDtl.Add("KodeArea", tsData.Detail.KodeArea);
+                        #region TS Detail Transcation
 
-                var resultDtl = await conn.ExecuteAsync(insertDetail, paramDtl);
+                        var insertDetail = @"INSERT INTO SAP_TrTimeSheetDetail ([InternalTSNo],[Tahun],[AppCode],[Pool],[TglMulai],[JamMulai],[JamSelesai],[UsageType],[NoSIO],[NoSO],[NoLambung],[NoEquipment],[KodeHarga],[FlagExtraHariRaya],[HariExtraInap],[PersenKomisi],[PersenDongkrak],[CreationDate],[CreationTime],[CreationUser],[LastUpdateDate],[LastUpdateTime],[LastUpdateUser],[Hari],[NoPolisiLama],[NIP],[rowguid],[KodeArea]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-                return true;
-            }           
+                        var paramDtl = new DynamicParameters();
+                        paramDtl.Add("InternalTsNo", tsData.Detail.InternalTsNo);
+                        paramDtl.Add("Tahun", tsData.Detail.Tahun);
+                        paramDtl.Add("AppCode", tsData.Detail.AppCode);
+                        paramDtl.Add("Pool", tsData.Detail.Pool);
+                        paramDtl.Add("TglMulai", tsData.Detail.TglMulai);
+                        paramDtl.Add("JamMulai", tsData.Detail.JamMulai);
+                        paramDtl.Add("JamSelesai", tsData.Detail.JamSelesai);
+                        paramDtl.Add("UsageType", tsData.Detail.UsageType);
+                        paramDtl.Add("NoSIO", tsData.Detail.NoSIO);
+                        paramDtl.Add("NoSO", tsData.Detail.NoSO);
+                        paramDtl.Add("NoLambung", tsData.Detail.NoLambung);
+                        paramDtl.Add("NoEquipment", tsData.Detail.NoEquipment);
+                        paramDtl.Add("KodeHarga", tsData.Detail.KodeHarga);
+                        paramDtl.Add("FlagExtraHariRaya", tsData.Detail.FlagExtraHariRaya);
+                        paramDtl.Add("HariExtraInap", tsData.Detail.HariExtraInap);
+                        paramDtl.Add("PersenKomisi", tsData.Detail.PersenKomisi);
+                        paramDtl.Add("PersenDongkrak", tsData.Detail.PersenDongkrak);
+                        paramDtl.Add("CreationDate", tsData.Detail.CreationDate);
+                        paramDtl.Add("CreationTime", tsData.Detail.CreationTime);
+                        paramDtl.Add("CreationUser", tsData.Detail.CreationUser);
+                        paramDtl.Add("LastUpdateDate", tsData.Detail.LastUpdateDate);
+                        paramDtl.Add("LastUpdateTime", tsData.Detail.LastUpdateTime);
+                        paramDtl.Add("LastUpdateUser", tsData.Detail.LastUpdateUser);
+                        paramDtl.Add("Hari", tsData.Detail.Hari);
+                        paramDtl.Add("NoPolisiLama", tsData.Detail.NoPolisiLama);
+                        paramDtl.Add("NIP", tsData.Detail.NIP);
+                        paramDtl.Add("rowguid", newId);
+                        paramDtl.Add("KodeArea", tsData.Detail.KodeArea);
+                        var resultDtl = await conn.ExecuteAsync(insertDetail, paramDtl, transaction);
 
+                        transaction.Commit();
+
+                        #endregion
+
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        throw new Exception("Some error occured" + ex.Message);
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
