@@ -3,6 +3,6 @@
     public class TimesheetData
     {
         public HeaderTimesheet? Header { get; set; }
-        public DetailTimesheet? Detail { get; set; }
+        public IEnumerable<DetailTimesheet>? Detail { get; set; }
     }
 }

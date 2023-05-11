@@ -45,6 +45,7 @@ namespace e_TimesheetNET7.Models.Timesheet
         public string? RefInternalTSNo { get; set; }
         public string? RefTahun { get; set; }
         public string? AsalTS { get; set; }
+        //public string? rowguid { get; set; }
         public string? KodeArea { get; set; }
     }
 }

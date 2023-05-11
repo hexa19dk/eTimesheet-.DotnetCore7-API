@@ -38,6 +38,7 @@ namespace e_TimesheetNET7.Models.Timesheet
         public string? Hari { get; set; }
         public string? NoPolisiLama { get; set; }
         public string? NIP { get; set; }
+        //public string? rowguid { get; set; }
         public string? KodeArea { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using e_TimesheetNET7.Config.Interfaces;
 using e_TimesheetNET7.Models.Contract;
 using e_TimesheetNET7.Models.Timesheet;
 using e_TimesheetNET7.Repositories.Interfaces;
+using System.Linq;
 using System.Reflection.Emit;
 using System.Transactions;
 
@@ -64,14 +65,14 @@ namespace e_TimesheetNET7.Repositories.SQL
             return tsHeader;
         }
 
-        public async Task<DetailTimesheet> GetDetailTimesheet(string internalTsNo, string tahun)
+        public async Task<List<DetailTimesheet>> GetDetailTimesheet(string internalTsNo, string tahun)
         {
             var conn = await _connect.CreateODBCConnectionAsync();
             var query = "SELECT * FROM SAP_TRTimeSheetDetail WHERE InternalTSNo=? AND Tahun=?";
             var param = new DynamicParameters();
             param.Add("InternalTSNo", internalTsNo);
             param.Add("Tahun", tahun);
-            var detailTs = await conn.QueryFirstOrDefaultAsync<DetailTimesheet>(query, param);
+            var detailTs = await conn.QueryFirstOrDefaultAsync<List<DetailTimesheet>>(query, param);
 
             return detailTs;
         }
@@ -93,20 +94,24 @@ namespace e_TimesheetNET7.Repositories.SQL
         public async Task<bool> InsertTimesheet(TimesheetData tsData)
         {
             var conn = await _connect.CreateODBCConnectionAsync();
+            //var newId = Guid.NewGuid().ToString();
 
             var header = await GetHeaderContract(tsData.Header.NoKontrak);
             var detail = await GetDetailContract(tsData.Header.NoKontrak, tsData.Header.NoItem);
             var detail2 = await GetDetail2Contract(tsData.Header.NoKontrak, tsData.Header.NoItem, tsData.Header.DetailDetail);
 
+            
             var query = "SELECT COUNT(*) Count FROM SAP_TrTimeSheetHeader AS tsHeader " +
                 "INNER JOIN SAP_TrTimeSheetDetail tsDetail ON tsHeader.InternalTsNo = tsDetail.InternalTsNo " +
                 "WHERE tsHeader.NIP=? AND tsDetail.Tahun=? AND tsDetail.TglMulai=? ";
 
             var param = new DynamicParameters();
             param.Add("NIP", tsData.Header.NIP);
-            param.Add("Tahun", tsData.Detail.Tahun);
-            param.Add("TglMulai", tsData.Detail.TglMulai);
-
+            foreach(var data in tsData.Detail)
+            {
+                param.Add("Tahun", data.Tahun);
+                param.Add("TglMulai", data.TglMulai);
+            }            
             var isExistDetail = await conn.QueryFirstOrDefaultAsync<int>(query, param);
 
             if(isExistDetail == 0)
@@ -114,14 +119,13 @@ namespace e_TimesheetNET7.Repositories.SQL
                 if (header != null && detail != null && detail2 != null)
                 {
                     var transaction = await conn.BeginTransactionAsync();
-                    var newId = Guid.NewGuid().ToString();
-
+                    
                     try
                     {
                         #region TS Header Trasnsaction
 
-                        var insertHeader = @"INSERT INTO [SAP_TrTimeSheetHeader] ([InternalTSNo],[Tahun],[AppCode],[NIP],[Pool],[PeriodFrom],[PeriodTo],[JenisPengemudi],[JamKerja],[NoKontrak],[NoItem],[DetailDetail],[NoCustomer],[NoLambung],[KelasKendaraan],[KmAwal],[KmAkhir],[KategoriKomisi],[NoTimeSheet],[FlagDeletion],[Status],[NIPReplaced],[NoEquipment],[CreationDate],[CreationTime],[CreationUser],[LastUpdateDate],[LastUpdateTime],[LastUpdateUser],[tglkirim],[flagkirim],[TglRelease],[RefInternalTSNo],[RefTahun],[AsalTS],[rowguid],[KodeArea]) 
-                          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        var insertHeader = @"INSERT INTO [SAP_TrTimeSheetHeader] ([InternalTSNo],[Tahun],[AppCode],[NIP],[Pool],[PeriodFrom],[PeriodTo],[JenisPengemudi],[JamKerja],[NoKontrak],[NoItem],[DetailDetail],[NoCustomer],[NoLambung],[KelasKendaraan],[KmAwal],[KmAkhir],[KategoriKomisi],[NoTimeSheet],[FlagDeletion],[Status],[NIPReplaced],[NoEquipment],[CreationDate],[CreationTime],[CreationUser],[LastUpdateDate],[LastUpdateTime],[LastUpdateUser],[tglkirim],[flagkirim],[TglRelease],[RefInternalTSNo],[RefTahun],[AsalTS],[KodeArea]) 
+                          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
                         var paramHdr = new DynamicParameters();
                         paramHdr.Add("InternalTSNo", tsData.Header?.InternalTSNo);
@@ -159,51 +163,55 @@ namespace e_TimesheetNET7.Repositories.SQL
                         paramHdr.Add("RefInternalTSNo", tsData.Header?.RefInternalTSNo);
                         paramHdr.Add("RefTahun", tsData.Header?.RefTahun);
                         paramHdr.Add("AsalTS", tsData.Header?.AsalTS);
-                        paramHdr.Add("rowguid", newId);
+                        //paramHdr.Add("rowguid", tsData.Header.rowguid);
                         paramHdr.Add("KodeArea", tsData.Header?.KodeArea);              
                         var resultHdr = await conn.ExecuteAsync(insertHeader, paramHdr, transaction);
                         //transaction.Commit();
 
                         #endregion
 
+
                         #region TS Detail Transcation
 
-                        var insertDetail = @"INSERT INTO SAP_TrTimeSheetDetail ([InternalTSNo],[Tahun],[AppCode],[Pool],[TglMulai],[JamMulai],[JamSelesai],[UsageType],[NoSIO],[NoSO],[NoLambung],[NoEquipment],[KodeHarga],[FlagExtraHariRaya],[HariExtraInap],[PersenKomisi],[PersenDongkrak],[CreationDate],[CreationTime],[CreationUser],[LastUpdateDate],[LastUpdateTime],[LastUpdateUser],[Hari],[NoPolisiLama],[NIP],[rowguid],[KodeArea]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                        foreach (var item in tsData.Detail)
+                        {
+                            var insertDetail = @"INSERT INTO SAP_TrTimeSheetDetail ([InternalTSNo],[Tahun],[AppCode],[Pool],[TglMulai],[JamMulai],[JamSelesai],[UsageType],[NoSIO],[NoSO],[NoLambung],[NoEquipment],[KodeHarga],[FlagExtraHariRaya],[HariExtraInap],[PersenKomisi],[PersenDongkrak],[CreationDate],[CreationTime],[CreationUser],[LastUpdateDate],[LastUpdateTime],[LastUpdateUser],[Hari],[NoPolisiLama],[NIP],[KodeArea]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-                        var paramDtl = new DynamicParameters();
-                        paramDtl.Add("InternalTsNo", tsData.Detail.InternalTsNo);
-                        paramDtl.Add("Tahun", tsData.Detail.Tahun);
-                        paramDtl.Add("AppCode", tsData.Detail.AppCode);
-                        paramDtl.Add("Pool", tsData.Detail.Pool);
-                        paramDtl.Add("TglMulai", tsData.Detail.TglMulai);
-                        paramDtl.Add("JamMulai", tsData.Detail.JamMulai);
-                        paramDtl.Add("JamSelesai", tsData.Detail.JamSelesai);
-                        paramDtl.Add("UsageType", tsData.Detail.UsageType);
-                        paramDtl.Add("NoSIO", tsData.Detail.NoSIO);
-                        paramDtl.Add("NoSO", tsData.Detail.NoSO);
-                        paramDtl.Add("NoLambung", tsData.Detail.NoLambung);
-                        paramDtl.Add("NoEquipment", tsData.Detail.NoEquipment);
-                        paramDtl.Add("KodeHarga", tsData.Detail.KodeHarga);
-                        paramDtl.Add("FlagExtraHariRaya", tsData.Detail.FlagExtraHariRaya);
-                        paramDtl.Add("HariExtraInap", tsData.Detail.HariExtraInap);
-                        paramDtl.Add("PersenKomisi", tsData.Detail.PersenKomisi);
-                        paramDtl.Add("PersenDongkrak", tsData.Detail.PersenDongkrak);
-                        paramDtl.Add("CreationDate", tsData.Detail.CreationDate);
-                        paramDtl.Add("CreationTime", tsData.Detail.CreationTime);
-                        paramDtl.Add("CreationUser", tsData.Detail.CreationUser);
-                        paramDtl.Add("LastUpdateDate", tsData.Detail.LastUpdateDate);
-                        paramDtl.Add("LastUpdateTime", tsData.Detail.LastUpdateTime);
-                        paramDtl.Add("LastUpdateUser", tsData.Detail.LastUpdateUser);
-                        paramDtl.Add("Hari", tsData.Detail.Hari);
-                        paramDtl.Add("NoPolisiLama", tsData.Detail.NoPolisiLama);
-                        paramDtl.Add("NIP", tsData.Detail.NIP);
-                        paramDtl.Add("rowguid", newId);
-                        paramDtl.Add("KodeArea", tsData.Detail.KodeArea);
-                        var resultDtl = await conn.ExecuteAsync(insertDetail, paramDtl, transaction);
-
-                        transaction.Commit();
+                            var paramDtl = new DynamicParameters();
+                            paramDtl.Add("InternalTsNo", item.InternalTsNo);
+                            paramDtl.Add("Tahun", item.Tahun);
+                            paramDtl.Add("AppCode", item.AppCode);
+                            paramDtl.Add("Pool", item.Pool);
+                            paramDtl.Add("TglMulai", item.TglMulai);
+                            paramDtl.Add("JamMulai", item.JamMulai);
+                            paramDtl.Add("JamSelesai", item.JamSelesai);
+                            paramDtl.Add("UsageType", item.UsageType);
+                            paramDtl.Add("NoSIO", item.NoSIO);
+                            paramDtl.Add("NoSO", item.NoSO);
+                            paramDtl.Add("NoLambung", item.NoLambung);
+                            paramDtl.Add("NoEquipment", item.NoEquipment);
+                            paramDtl.Add("KodeHarga", item.KodeHarga);
+                            paramDtl.Add("FlagExtraHariRaya", item.FlagExtraHariRaya);
+                            paramDtl.Add("HariExtraInap", item.HariExtraInap);
+                            paramDtl.Add("PersenKomisi", item.PersenKomisi);
+                            paramDtl.Add("PersenDongkrak", item.PersenDongkrak);
+                            paramDtl.Add("CreationDate", item.CreationDate);
+                            paramDtl.Add("CreationTime", item.CreationTime);
+                            paramDtl.Add("CreationUser", item.CreationUser);
+                            paramDtl.Add("LastUpdateDate", item.LastUpdateDate);
+                            paramDtl.Add("LastUpdateTime", item.LastUpdateTime);
+                            paramDtl.Add("LastUpdateUser", item.LastUpdateUser);
+                            paramDtl.Add("Hari", item.Hari);
+                            paramDtl.Add("NoPolisiLama", item.NoPolisiLama);
+                            paramDtl.Add("NIP", item.NIP);
+                            //paramDtl.Add("rowguid", item.rowguid);
+                            paramDtl.Add("KodeArea", item.KodeArea);
+                            var resultDtl = await conn.ExecuteAsync(insertDetail, paramDtl, transaction);
+                        }
 
                         #endregion
+
+                        transaction.Commit();
 
                         return true;
                     }
