@@ -1,9 +1,14 @@
 ﻿using e_TimesheetNET7.Models.Contract;
 using e_TimesheetNET7.Repositories.Interfaces;
-using e_TimesheetNET7.Usecase.Interfaces;
 
 namespace e_TimesheetNET7.Usecase
 {
+    public interface IContractUsecase
+    {
+        Task<DataContract> GetContract(string contractNo);
+        Task<HeaderContract> GetHeader(string contractNo);
+    }
+
     public class ContractUsecase : IContractUsecase
     {
         private readonly IContractRepository _contractRepo;

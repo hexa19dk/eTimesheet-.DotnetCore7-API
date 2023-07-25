@@ -1,0 +1,137 @@
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\appsettings.Development.json
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\appsettings.json
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\e-TimesheetNET7.exe
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\e-TimesheetNET7.deps.json
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\e-TimesheetNET7.runtimeconfig.json
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\e-TimesheetNET7.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\e-TimesheetNET7.pdb
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Autofac.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Autofac.Extensions.DependencyInjection.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Dapper.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Dapper.Extensions.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Microsoft.AspNetCore.OpenApi.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Microsoft.Extensions.Configuration.Binder.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Microsoft.OpenApi.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Microsoft.Win32.SystemEvents.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Newtonsoft.Json.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Swashbuckle.AspNetCore.Swagger.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Configuration.ConfigurationManager.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Data.Odbc.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Data.OleDb.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Data.SqlClient.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Diagnostics.PerformanceCounter.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Drawing.Common.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Security.Cryptography.ProtectedData.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Security.Permissions.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Windows.Extensions.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win-arm64\native\sni.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win-x64\native\sni.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win-x86\native\sni.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\freebsd\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\illumos\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\ios\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\linux\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\osx\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\solaris\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\tvos\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Data.OleDb.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Diagnostics.PerformanceCounter.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.csproj.AssemblyReference.cache
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.GeneratedMSBuildEditorConfig.editorconfig
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.AssemblyInfoInputs.cache
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.AssemblyInfo.cs
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.csproj.CoreCompileInputs.cache
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.MvcApplicationPartsAssemblyInfo.cs
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.MvcApplicationPartsAssemblyInfo.cache
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets\msbuild.e-TimesheetNET7.Microsoft.AspNetCore.StaticWebAssets.props
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets\msbuild.build.e-TimesheetNET7.props
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets\msbuild.buildMultiTargeting.e-TimesheetNET7.props
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets\msbuild.buildTransitive.e-TimesheetNET7.props
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets.pack.json
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets.build.json
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets.development.json
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\scopedcss\bundle\e-TimesheetNET7.styles.css
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.csproj.CopyComplete
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\refint\e-TimesheetNET7.dll
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.pdb
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.genruntimeconfig.cache
+P:\Application Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\ref\e-TimesheetNET7.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\appsettings.Development.json
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\appsettings.json
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\e-TimesheetNET7.exe
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\e-TimesheetNET7.deps.json
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\e-TimesheetNET7.runtimeconfig.json
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\e-TimesheetNET7.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\e-TimesheetNET7.pdb
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Autofac.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Autofac.Extensions.DependencyInjection.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Dapper.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Dapper.Extensions.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\IdentityModel.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Microsoft.AspNetCore.OpenApi.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Microsoft.Extensions.Configuration.Binder.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Microsoft.OpenApi.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Microsoft.Win32.SystemEvents.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Newtonsoft.Json.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Swashbuckle.AspNetCore.Swagger.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Configuration.ConfigurationManager.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Data.Odbc.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Data.OleDb.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Data.SqlClient.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Diagnostics.PerformanceCounter.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Drawing.Common.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Security.Cryptography.ProtectedData.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Security.Permissions.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\System.Windows.Extensions.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win-arm64\native\sni.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win-x64\native\sni.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win-x86\native\sni.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\freebsd\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\illumos\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\ios\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\linux\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\osx\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\solaris\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\tvos\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Data.Odbc.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Data.OleDb.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Diagnostics.PerformanceCounter.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\bin\Release\net7.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.csproj.AssemblyReference.cache
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.GeneratedMSBuildEditorConfig.editorconfig
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.AssemblyInfoInputs.cache
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.AssemblyInfo.cs
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.csproj.CoreCompileInputs.cache
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.MvcApplicationPartsAssemblyInfo.cs
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.MvcApplicationPartsAssemblyInfo.cache
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets\msbuild.e-TimesheetNET7.Microsoft.AspNetCore.StaticWebAssets.props
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets\msbuild.build.e-TimesheetNET7.props
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets\msbuild.buildMultiTargeting.e-TimesheetNET7.props
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets\msbuild.buildTransitive.e-TimesheetNET7.props
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets.pack.json
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets.build.json
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\staticwebassets.development.json
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\scopedcss\bundle\e-TimesheetNET7.styles.css
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.csproj.CopyComplete
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\refint\e-TimesheetNET7.dll
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.pdb
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\e-TimesheetNET7.genruntimeconfig.cache
+P:\Application Project\BBG Project\e-TimesheetNET7\e-TimesheetNET7\obj\Release\net7.0\ref\e-TimesheetNET7.dll

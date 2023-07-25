@@ -1,8 +1,9 @@
-﻿using e_TimesheetNET7.Usecase.Interfaces;
+﻿using e_TimesheetNET7.Usecase;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
-using static System.Net.WebRequestMethods;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace e_TimesheetNET7.Controllers
 {
@@ -11,32 +12,14 @@ namespace e_TimesheetNET7.Controllers
     public class ContractController : ControllerBase
     {
         private readonly IContractUsecase _ctrUsecase;
-        public ContractController(IContractUsecase ctrUsecase) 
+        private readonly IConfiguration _config;
+        public ContractController(IContractUsecase ctrUsecase, IConfiguration config) 
         {
             _ctrUsecase = ctrUsecase;
+            _config = config;
         }
 
-        //[HttpGet("/ContractHeader/{contractNo}")]
-        //public async Task<ActionResult> GetHeader(string contractNo)
-        //{
-        //    try
-        //    {
-        //        var result = await _ctrUsecase.GetHeader(contractNo);
-        //        if (result == null)
-        //        {
-        //            return BadRequest("Not found");
-        //        }
-        //        var json = JsonConvert.SerializeObject(result, Formatting.Indented);
-
-        //        return Ok(json);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(StatusCodes.Status500InternalServerError, ex);
-        //    }
-        //}
-
-        [HttpGet("/ContractData/{contractNo}")]
+        [HttpGet("/GetContractData/{contractNo}")]
         public async Task<ActionResult> GetContract(string contractNo)
         {
             try
@@ -57,46 +40,56 @@ namespace e_TimesheetNET7.Controllers
         }
 
         [HttpPost("/PostContract")]
-        public async Task<ActionResult> PostContract(string contractNo)
+        public async Task<ActionResult> PostContract(List<string> contractNo)
         {
-            string gcp_ts = "https://stgapi-corptimesheet.bluebird.id";
-            string endpoint = string.Concat(gcp_ts, "/fok/receiver/v1/contract");
-            HttpResponseMessage response = null;
-            var data = await _ctrUsecase.GetContract(contractNo);
-
             try
             {
-                if (data.Header != null && data.Detail != null && data.DetailDetail != null)
-                {
-                    if (!string.IsNullOrEmpty(gcp_ts))
-                    {
-                        using (var client = new HttpClient())
-                        {
-                            StringContent content = new StringContent(JsonConvert.SerializeObject(data));
-                            response = await client.PostAsync(endpoint, content);
-                        }
-                    }
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = null;
+                string gcp_ts = string.Concat(_config["apiUrl:staging"],"/fok/receiver/v2/contract");
 
-                    if (response.StatusCode == HttpStatusCode.OK)
+                foreach (var noKontrak in contractNo)
+                {
+                    var data = await _ctrUsecase.GetContract(noKontrak);
+                    //var json = JsonConvert.SerializeObject(data);
+
+                    if (data.Header != null && data.Detail != null && data.DetailDetail != null)
                     {
-                        return Ok(data);
+                        if (!string.IsNullOrEmpty(gcp_ts))
+                        {
+                            StringContent content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");                            
+                            var authString = Convert.ToBase64String(Encoding.UTF8.GetBytes("partnertimesheet:4dminP4rtnertim3sh3et"));
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authString);
+                            response = await client.PostAsync(gcp_ts, content);
+                        }
+                        else
+                        {
+                            return StatusCode(StatusCodes.Status404NotFound);
+                        }                       
                     }
                     else
                     {
                         var content = await response.Content.ReadAsStringAsync();
-                        var resp = JsonConvert.SerializeObject(content, Formatting.Indented);
-                        return BadRequest(resp);
+                        return BadRequest(content);
                     }
+                }
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    //return Ok(data);
+                    return Ok("Successfully push contract data");
                 }
                 else
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    return BadRequest(content);
+                    var resp = JsonConvert.SerializeObject(content, Formatting.Indented);
+                    return BadRequest(resp);
                 }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
     }

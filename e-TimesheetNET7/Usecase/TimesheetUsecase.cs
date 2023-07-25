@@ -1,9 +1,14 @@
 ﻿using e_TimesheetNET7.Models.Timesheet;
 using e_TimesheetNET7.Repositories.Interfaces;
-using e_TimesheetNET7.Usecase.Interfaces;
 
 namespace e_TimesheetNET7.Usecase
 {
+    public interface ITimesheetUsecase
+    {
+        Task<TimesheetData> GetTimesheetData(string internalTsNo, string tahun);
+        Task<bool> PostTimesheet(TimesheetData tsData);
+    }
+
     public class TimesheetUsecase : ITimesheetUsecase
     {
         private readonly ITimesheetRepository _tsRepo;
@@ -34,7 +39,7 @@ namespace e_TimesheetNET7.Usecase
             }
             catch(Exception ex)
             {
-                throw new Exception("Insert timesheet data failed " + ex.Message);
+                throw new Exception("Insert timesheet data failed, error " + ex.Message);
             }
         }
     }

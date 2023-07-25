@@ -1,12 +1,18 @@
 ﻿using Dapper;
-using e_TimesheetNET7.Config.Interfaces;
+using e_TimesheetNET7.Config;
 using e_TimesheetNET7.Models.Contract;
-using e_TimesheetNET7.Repositories.Interfaces;
 using Newtonsoft.Json;
-using System.Collections;
 
 namespace e_TimesheetNET7.Repositories.SQL
 {
+    public interface IContractDb
+    {
+        Task<HeaderContract> GetContractHeader(string contractNo);
+        Task<IEnumerable<DetailContract>> GetContractItem(string contractNo);
+        Task<IEnumerable<DetailDetailContract>> GetContractDetail(string contractNo);
+        Task<DataContract> GetContractData(string contractNo);
+    }
+
     public class ContractDb : IContractDb
     {
         private readonly IConnectionFactoryDb _connect;
