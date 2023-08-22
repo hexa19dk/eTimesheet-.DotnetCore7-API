@@ -11,8 +11,9 @@ namespace e_TimesheetNET7.Repositories.SQL
         Task<HeaderContract> GetHeader(string noContract);
         Task<DetailContract> GetDetail(string noContract);
         Task<DetailDetailContract> GetDetail2(string noContract);
-        Task<bool> InsertDriverPermit(DriverGbLimoRequest request);
         Task<DriverItem> GetDriver(string nip);
+        Task<bool> InsertDriverPermit(DriverGbLimoRequest request);
+        Task<bool> UpdateDriverPermit(DriverGbLimoRequest request);
     }
 
     public class DriverDb : IDriverDb
@@ -57,6 +58,26 @@ namespace e_TimesheetNET7.Repositories.SQL
             throw new NotImplementedException();
         }        
 
+        public async Task<DriverItem> CheckDriverPermit(int Id)
+        {
+            var conn = await _connect.GbLimoConnection();
+            var transaction = await conn.BeginTransactionAsync();
+
+            try
+            {
+                DriverItem driver = new DriverItem();
+                var checkId = @"SELECT * FROM [LMO_MTIzinPengemudi] WHERE id=?";
+                var paramId = new DynamicParameters();
+                paramId.Add("Id", Id);
+                driver = await conn.QueryFirstOrDefaultAsync<DriverItem>(checkId, paramId);
+                return driver;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public async Task<bool> InsertDriverPermit(DriverGbLimoRequest request)
         {
             var conn = await _connect.GbLimoConnection();
@@ -80,6 +101,39 @@ namespace e_TimesheetNET7.Repositories.SQL
                 return true;
             }
             catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateDriverPermit(DriverGbLimoRequest request)
+        {
+            var conn = await _connect.GbLimoConnection();
+            var transaction = await conn.BeginTransactionAsync();
+
+            if (CheckDriverPermit(request.Id) == null)
+            {
+                throw new Exception("driver permit {id} not found");
+            }
+
+            try
+            {
+                var query = @"UPDATE [LMO_MTIzinPengemudi] SET NIP=?, NoKontrak=?, NoItem=?, NoDetil=?, NIPPengganti=?, TanggalIzin=?, Status=? WHERE Id=?";
+                var param = new DynamicParameters();
+                param.Add("NIP", request.NIP);
+                param.Add("NoKontrak", request.NoKontrak);
+                param.Add("NoItem", request.NoItem);
+                param.Add("NoDetail", request.NoDetil);
+                param.Add("NIPPengganti", request.NIPPengganti);
+                param.Add("TanggalIzin", request.TanggalIzin);
+                param.Add("Status", request.Status);
+                param.Add("Id", request.Id);
+                var result = await conn.ExecuteAsync(query, param, transaction);
+                transaction.Commit();
+                return true;
+            }
+            catch(Exception ex)
             {
                 await transaction.RollbackAsync();
                 throw;

@@ -20,8 +20,26 @@ namespace e_TimesheetNET7.Controllers
             _config = config;
         }
 
-        [HttpPut("/driver/UpdateDriver")]
-        public async Task<IActionResult> UpdateDriver(string nip)
+        [HttpGet("driverMap")]
+        public DriverGbLimoRequest DriverMap(DriverTimesheetRequest request)
+        {
+            var driver = new DriverGbLimoRequest()
+            {
+                Id = request.id,
+                NIP = request.nip,
+                NoKontrak = request.contract_number,
+                NoItem = request.item_number,
+                NoDetil = request.detail_number,
+                NIPPengganti = request.replacement_driver_nip,
+                TanggalIzin = request.permission_date,
+                Status = request.status,
+            };
+
+            return driver;
+        }
+
+        [HttpPut("/driver/group-code")]
+        public async Task<IActionResult> UpdateGroupCode(string nip)
         {
             try
             {
@@ -67,21 +85,9 @@ namespace e_TimesheetNET7.Controllers
             }
         }
 
-        [HttpPost("/driver/PostDriverPermit")]
+        [HttpPost("/driver/permit")]
         public async Task<IActionResult> PostDriverPermit(DriverTimesheetRequest request)
         {
-            var driver = new DriverGbLimoRequest()
-            {
-                Id = request.id,
-                NIP = request.nip,
-                NoKontrak = request.contract_number,
-                NoItem = request.item_number,
-                NoDetil = request.detail_number,
-                NIPPengganti = request.replacement_driver_nip,
-                TanggalIzin = request.permission_date,
-                Status = request.status,
-            };
-
             try
             {
                 if (!ModelState.IsValid)
@@ -89,7 +95,7 @@ namespace e_TimesheetNET7.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest, ModelState);
                 }
 
-                var result = await _dvrUsecase.PostDriverPermit(driver);
+                var result = await _dvrUsecase.PostDriverPermit(DriverMap(request));
                 if (result == true)
                 {
                     var json = JsonConvert.SerializeObject(result, Formatting.Indented);
@@ -99,6 +105,20 @@ namespace e_TimesheetNET7.Controllers
                 {
                     return StatusCode(StatusCodes.Status400BadRequest, "Insert driver permitd failed");
                 }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPut("/driver/update-permit")]
+        public async Task<IActionResult> DriverUpdate(DriverTimesheetRequest request)
+        {
+            try
+            {
+                var result = await _dvrUsecase.UpdateDriverPermit(DriverMap(request));
+                return Ok(result);
             }
             catch (Exception ex)
             {

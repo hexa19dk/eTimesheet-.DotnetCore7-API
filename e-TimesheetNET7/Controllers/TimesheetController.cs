@@ -47,7 +47,7 @@ namespace e_TimesheetNET7.Controllers
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status400BadRequest, "Timesheet data already exist");
+                    return StatusCode(StatusCodes.Status400BadRequest, "Bad Request 400");
                 }
             }
             catch(Exception ex)

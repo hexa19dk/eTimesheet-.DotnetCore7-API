@@ -7,6 +7,8 @@ namespace e_TimesheetNET7.Usecase
     {
         Task<DriverItem> GetDriver(string nip);
         Task<bool> PostDriverPermit(DriverGbLimoRequest request);
+        //Task<bool> UpdateDriverPermit(DriverTimesheetRequest request);
+        Task<bool> UpdateDriverPermit(DriverGbLimoRequest request);
     }
 
     public class DriverUsecase : IDriverUsecase
@@ -40,6 +42,19 @@ namespace e_TimesheetNET7.Usecase
             catch (Exception ex)
             {
                 throw new Exception("Insert driver permit data failed. Error: " + ex.Message);
+            }
+        }
+
+        public async Task<bool> UpdateDriverPermit(DriverGbLimoRequest request)
+        {
+            try
+            {
+                var result = await _driverRepo.Drivers().UpdateDriverPermit(request);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed update driver permit, Error: " + ex.Message);
             }
         }
     }

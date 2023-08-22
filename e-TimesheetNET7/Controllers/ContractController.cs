@@ -51,14 +51,15 @@ namespace e_TimesheetNET7.Controllers
                 foreach (var noKontrak in contractNo)
                 {
                     var data = await _ctrUsecase.GetContract(noKontrak);
-                    //var json = JsonConvert.SerializeObject(data);
+                    var json = JsonConvert.SerializeObject(data);
 
                     if (data.Header != null && data.Detail != null && data.DetailDetail != null)
                     {
                         if (!string.IsNullOrEmpty(gcp_ts))
                         {
-                            StringContent content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");                            
+                            StringContent content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
                             var authString = Convert.ToBase64String(Encoding.UTF8.GetBytes("partnertimesheet:4dminP4rtnertim3sh3et"));
+                            //var authString = Convert.ToBase64String(Encoding.UTF8.GetBytes("Y0dGeWRHNWxjblJwYldWemFHVmxkQT09:NGRtaW5QNHJ0bmVydGltM3NoM2V0"));
                             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authString);
                             response = await client.PostAsync(gcp_ts, content);
                         }

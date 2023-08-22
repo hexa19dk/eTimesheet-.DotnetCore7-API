@@ -47,7 +47,7 @@ namespace e_TimesheetNET7.Controllers
         public async Task<IActionResult> PostSio([FromBody] SIOLimo limo)
         {
             HttpClient client = new HttpClient();
-            string endpoint = string.Concat(_config["apiUrl:staging"],"/driver/v2/sio");
+            string endpoint = string.Concat(_config["apiUrl:dev"],"/driver/v2/sio");
             HttpResponseMessage response = null;
             var respDt = MapSio(limo);
 
