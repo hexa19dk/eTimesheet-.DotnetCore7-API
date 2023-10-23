@@ -28,8 +28,8 @@ namespace e_TimesheetNET7.Controllers
                 driver_nip = limo.DriverCode,
                 driver_name = limo.DriverName,
                 vehicle_code = limo.VehicleCode,
-                start_date = limo.StartDate,
-                end_date = limo.FinishDate,
+                start_date = DateTime.Parse(limo.StartDate).ToString("yyyy-MM-ddTHH:mm:ss+07:00"),
+                end_date = DateTime.Parse(limo.FinishDate).ToString("yyyy-MM-ddTHH:mm:ss+07:00"), // same as start date 
                 start_km = limo.StartKm,
                 finish_km = limo.FinishKm,
                 liter_bbm = limo.LiterBBM,
@@ -47,9 +47,10 @@ namespace e_TimesheetNET7.Controllers
         public async Task<IActionResult> PostSio([FromBody] SIOLimo limo)
         {
             HttpClient client = new HttpClient();
-            string endpoint = string.Concat(_config["apiUrl:dev"],"/driver/v2/sio");
+            string endpoint = string.Concat(_config["apiUrl:prod"],"/driver/v2/sio");
             HttpResponseMessage response = null;
             var respDt = MapSio(limo);
+            var json = JsonConvert.SerializeObject(respDt);
 
             try
             {
@@ -58,14 +59,16 @@ namespace e_TimesheetNET7.Controllers
                     if (!string.IsNullOrEmpty(endpoint))
                     {
                         StringContent content = new StringContent(JsonConvert.SerializeObject(respDt), Encoding.UTF8, "application/json");
-                        var authString = Convert.ToBase64String(Encoding.UTF8.GetBytes("partnertimesheet:4dminP4rtnertim3sh3et"));
+                        //var authString = Convert.ToBase64String(Encoding.UTF8.GetBytes("partnertimesheet:4dminP4rtnertim3sh3et"));
+                        var authString = Convert.ToBase64String(Encoding.UTF8.GetBytes("Y0dGeWRHNWxjblJwYldWemFHVmxkQT09:NGRtaW5QNHJ0bmVydGltM3NoM2V0"));
                         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authString);
                         response = await client.PostAsync(endpoint, content);
                     }
 
                     if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        return Ok(respDt);
+                        //return Ok(respDt);
+                        return Ok("Sio data successfully post");
                     }
                     else
                     {

@@ -9,8 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<IConnectionFactoryDb>(
     _ => new ConnectionFactoryDb(
-        builder.Configuration.GetValue<string>("DatabaseSettings:ODBCConnection")!, 
-        builder.Configuration.GetValue<string>("DatabaseSettings:bbdbserver03")!
+        builder.Configuration.GetValue<string>("DatabaseSettings:ODBCConnection")!,
+        builder.Configuration.GetValue<string>("DatabaseSettings:bbdbserver03")!,
+        builder.Configuration.GetValue<string>("DatabaseSettings:serverxb01Connection")!,
+        builder.Configuration.GetValue<string>("DatabaseSettings:bbdserver07")!,
+        builder.Configuration.GetValue<string>("DatabaseSettings:getDbDriver")!
 ));
 
 

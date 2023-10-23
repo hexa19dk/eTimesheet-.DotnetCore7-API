@@ -39,18 +39,18 @@ namespace e_TimesheetNET7.Controllers
         }
 
         [HttpPut("/driver/group-code")]
-        public async Task<IActionResult> UpdateGroupCode(string nip)
+        public async Task<IActionResult> UpdateGroupCode(string nip, string kdPool)
         {
             try
             {
                 HttpClient client = new HttpClient();
                 HttpResponseMessage response = null;
-                string gcp_ts = string.Concat(_config["apiUrl:staging"], "/driver/v2/group-code/" + nip);
-                var data = await _dvrUsecase.GetDriver(nip);
+                string gcp_ts = string.Concat(_config["apiUrl:dev"], "/driver/v2/group-code/" + nip);
+                var data = await _dvrUsecase.GetDriver(nip, kdPool); // Get data driver dari DB Pool bukan SAP
                 var mapData = new DriverRequest
                 {
-                    nip = data.NIP,
-                    group_code = data.KdGolongan2,
+                    nip                 = data.NIP,
+                    group_code          = data.KdGolongan2,
                     mobile_phone_number = data.NoHp
                 };
 
@@ -58,6 +58,7 @@ namespace e_TimesheetNET7.Controllers
                 {
                     StringContent content = new StringContent(JsonConvert.SerializeObject(mapData), Encoding.UTF8, "application/json");
                     var authString = Convert.ToBase64String(Encoding.UTF8.GetBytes("partnertimesheet:4dminP4rtnertim3sh3et"));
+                    //var authString = Convert.ToBase64String(Encoding.UTF8.GetBytes("Y0dGeWRHNWxjblJwYldWemFHVmxkQT09:NGRtaW5QNHJ0bmVydGltM3NoM2V0"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authString);
                     response = await client.PutAsync(gcp_ts, content);
 

@@ -4,7 +4,6 @@
     {
         public string NIP { get; set; }
         public string KdGolongan2 { get; set; }
-        //public string NoTelepon { get; set; }
         public string NoHp { get; set; }
     }
 

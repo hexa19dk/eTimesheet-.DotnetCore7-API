@@ -5,7 +5,7 @@ namespace e_TimesheetNET7.Usecase
 {
     public interface IDriverUsecase
     {
-        Task<DriverItem> GetDriver(string nip);
+        Task<DriverItem> GetDriver(string nip, string kdPool);
         Task<bool> PostDriverPermit(DriverGbLimoRequest request);
         //Task<bool> UpdateDriverPermit(DriverTimesheetRequest request);
         Task<bool> UpdateDriverPermit(DriverGbLimoRequest request);
@@ -19,11 +19,11 @@ namespace e_TimesheetNET7.Usecase
             _driverRepo = driverRepo;
         }
 
-        public async Task<DriverItem> GetDriver(string nip)
+        public async Task<DriverItem> GetDriver(string nip, string kdPool)
         {
             try
             {
-                var result = await _driverRepo.Drivers().GetDriver(nip);
+                var result = await _driverRepo.Drivers().GetDriver(nip, kdPool);
                 return result;
             }
             catch (Exception ex)
