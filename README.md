@@ -26,12 +26,15 @@ This API follows a clean layered architecture with a clear separation of concern
 The project follows a **layered architecture** with the following core layers:
 
 Controller (API Endpoints)
-↓
+        │
+        ▼
 Service / Business Logic
-↓
+        │
+        ▼
 Repository / Data Access
-↓
-Database
+        │
+        ▼
+      Database
 
 This separation:
 - Keeps controller code thin
